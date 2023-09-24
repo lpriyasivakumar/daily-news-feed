@@ -1,6 +1,6 @@
-# Kotlin ktor starter
+# Daily News feed application
 
-An [application continuum](https://www.appcontinuum.io/) style example using Kotlin and Ktor
+Created from the [application continuum](https://www.appcontinuum.io/) style example using Kotlin and Ktor
 that includes a single web application with two background workers.
 
 * Basic web application
