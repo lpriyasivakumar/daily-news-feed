@@ -1,7 +1,6 @@
 package io.collective.start.collector
 
 import io.collective.workflow.WorkScheduler
-import io.github.cdimascio.dotenv.dotenv
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
