@@ -36,19 +36,19 @@ Run the servers locally using the below examples.
 ### Web application
 
 ```bash
-java -jar applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar
+./gradlew applications:basic-server:run
 ```
 
 ### Data collector
 
 ```bash
-java -jar applications/data-collector-server/build/libs/data-collector-server-1.0-SNAPSHOT.jar
+./gradlew applications:data-collector-server:run
 ```
 
 ### Data analyzer
 
 ```bash
-java -jar applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
+./gradlew applications:data-analyzer-server:run
 ```
 
 ## Production

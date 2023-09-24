@@ -24,6 +24,6 @@ fun Application.module() {
 
 fun main() {
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-    val port = System.getenv("PORT")?.toInt() ?: 8888
+    val port = System.getenv("ANALYZER_PORT")?.toInt() ?: 8081
     embeddedServer(Netty, port, watchPaths = listOf("data-analyzer-server"), module = Application::module).start()
 }

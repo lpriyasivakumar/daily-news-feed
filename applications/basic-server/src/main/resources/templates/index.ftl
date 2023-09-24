@@ -1,12 +1,12 @@
 <#import "template.ftl" as layout />
 
 <@layout.noauthentication>
-    <section>
-        <div class="container">
-            <p>
-                An example application using Kotlin and Ktor.
-            </p>
-        </div>
+    <section class="container">
+        <form action="/echo" method="post">
+            <p> Simple input echoer </p>
+            <input name="user_input"/>
+            <input type="submit" value="Submit"/>
+        </form>
     </section>
 
 </@layout.noauthentication>

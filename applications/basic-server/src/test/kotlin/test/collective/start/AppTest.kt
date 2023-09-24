@@ -14,7 +14,7 @@ class AppTest {
     fun testEmptyHome() = testApp {
         handleRequest(HttpMethod.Get, "/").apply {
             assertEquals(200, response.status()?.value)
-            assertTrue(response.content!!.contains("An example application using Kotlin and Ktor"))
+            assertTrue(response.content!!.contains("Simple input echoer"))
         }
     }
 

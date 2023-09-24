@@ -1,6 +1,7 @@
 package io.collective.start.collector
 
 import io.collective.workflow.WorkScheduler
+import io.github.cdimascio.dotenv.dotenv
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -24,6 +25,6 @@ fun Application.module() {
 
 fun main() {
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-    val port = System.getenv("PORT")?.toInt() ?: 8888
+    val port = System.getenv("PORT")?.toInt() ?: 8761
     embeddedServer(Netty, port, watchPaths = listOf("data-collector-server"), module = Application::module).start()
 }

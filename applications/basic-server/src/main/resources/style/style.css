@@ -25,7 +25,10 @@ body {
 }
 
 header {
-    padding: 22rem 0 3rem;
+    padding: 2rem 0 2rem;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: 2rem;
 }
 
 main {
@@ -37,7 +40,7 @@ section {
 }
 
 footer {
-    padding: 2rem 0;
+    padding: 1.5rem 0;
     background-color: var(--black);
     color: var(--white);
 }
