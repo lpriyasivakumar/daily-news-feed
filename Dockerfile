@@ -1,6 +1,6 @@
 FROM openjdk:18-jdk-slim
-ARG PORT=""
-ARG APP=""
+ENV PORT=""
+ENV APP=""
 COPY . .
 RUN ./gradlew stage
 EXPOSE ${PORT}
