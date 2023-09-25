@@ -5,6 +5,6 @@ ENV PORT=$PORT
 ENV APP=$APP
 ENV PROPS="-Dserver.port=${PORT}"
 COPY . .
-RUN ./gradlew stage
+RUN ./gradlew clean build
 EXPOSE $PORT
-ENTRYPOINT java -jar $PROPS $APP
+ENTRYPOINT java -jar $APP $PROPS

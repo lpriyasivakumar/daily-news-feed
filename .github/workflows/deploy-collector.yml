@@ -21,4 +21,4 @@ jobs:
             APP
         env:
           PORT: 8761
-          APP: applications/data-collector-server/build/libs/data-collector-server-1.0-SNAPSHOT.jar
+          APP: ./applications/data-collector-server/build/libs/data-collector-server-1.0-SNAPSHOT.jar

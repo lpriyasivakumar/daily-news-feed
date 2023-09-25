@@ -21,4 +21,4 @@ jobs:
             APP
         env:
           PORT: 8081
-          APP: applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
+          APP: ./applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
