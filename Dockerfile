@@ -6,4 +6,4 @@ ENV APP=$APP
 COPY . .
 RUN ./gradlew clean build
 EXPOSE $PORT
-ENTRYPOINT["java", "-jar", "$APP"]
+ENTRYPOINT ["java", "-jar", "$APP"]
