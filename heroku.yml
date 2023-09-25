@@ -5,6 +5,6 @@ setup:
     COLLECTOR_PORT: 8761
 build:
   docker:
-    web: applications/basic-server/Dockerfile
-    analyzer: applications/data-analyzer-server/Dockerfile
-    collector: applications/data-collector-server/Dockerfile
+    web: web.Dockerfile
+    analyzer: analyzer.Dockerfile
+    collector: collector.Dockerfile
