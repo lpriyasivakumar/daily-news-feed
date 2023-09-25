@@ -7,4 +7,4 @@ ENV PROPS="-Dserver.port=${PORT} -Djava.security.egd=file:/dev/./urandom"
 COPY . .
 RUN ./gradlew stage
 EXPOSE $PORT
-ENTRYPOINT java -jar ${PROPS} ${APP}
+ENTRYPOINT java -jar $PROPS $APP
