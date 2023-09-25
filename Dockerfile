@@ -4,7 +4,8 @@ ARG APP
 ENV PORT=$PORT
 ENV APP=$APP
 ENV PROPS="-Dserver.port=${PORT}"
-COPY . .
+COPY . /app
+cd /app
 RUN ./gradlew clean build
 EXPOSE $PORT
 ENTRYPOINT java -jar $APP $PROPS
