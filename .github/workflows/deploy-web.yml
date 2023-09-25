@@ -20,5 +20,5 @@ jobs:
             PORT
             APP
         env:
-          PORT: 8080
-          APP: applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar
+          HD_PORT: 8080
+          HD_APP: applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar
