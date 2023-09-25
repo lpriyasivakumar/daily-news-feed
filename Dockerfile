@@ -1,7 +1,9 @@
 FROM openjdk:18-jdk-slim
-ENV PORT=""
-ENV APP=""
+ARG PORT
+ARG APP
+ENV PRT=$PORT
+ENV APP_NAME=$APP
 COPY . .
 RUN ./gradlew stage
-EXPOSE ${PORT}
-ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT} -jar ${APP}
+EXPOSE ${PRT}
+ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PRT} -jar ${APP_NAME}

@@ -20,5 +20,5 @@ jobs:
             PORT
             APP
         env:
-          HD_PORT: 8081
-          HD_APP: applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
+          PORT: 8081
+          APP: applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
