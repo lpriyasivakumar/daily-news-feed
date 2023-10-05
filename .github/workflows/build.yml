@@ -16,7 +16,6 @@ jobs:
           ADDITIONAL_POSTGRES_DBS: 'news_test'
         volumes:
           - ./databases/init-scripts:/docker-entrypoint-initdb.d
-          - ./.docker-data/.pg-data:/var/lib/postgresql/data
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 16
