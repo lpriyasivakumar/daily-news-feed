@@ -23,6 +23,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run migrations
-        run: ./gradlew devMigrate testMigrate
+        run: ./gradlew testMigrate
       - name: Build with Gradle
         run: ./gradlew build
