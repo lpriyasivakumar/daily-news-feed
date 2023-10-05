@@ -4,10 +4,10 @@ import io.collective.workflow.Worker
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
-class ExampleWorker(override val name: String = "data-analyzer") : Worker<ExampleTask> {
+class AnalysisWorker(override val name: String = "data-analyzer") : Worker<AnalysisTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
-    override fun execute(task: ExampleTask) {
+    override fun execute(task: AnalysisTask) {
         runBlocking {
             logger.info("starting data analysis.")
 

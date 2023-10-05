@@ -12,7 +12,7 @@
     <body>
     <header>
         <div class="container">
-             Daily News Feed
+            Daily News Feed
         </div>
     </header>
     <main>

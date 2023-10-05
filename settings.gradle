@@ -1,9 +1,13 @@
-rootProject.name = "kotlin-ktor-starter"
+rootProject.name = "daily-news-feed"
 
 include "applications:basic-server"
 include "applications:data-analyzer-server"
 include "applications:data-collector-server"
 
+include "components:news"
 include "components:data-collector"
 include "components:data-analyzer"
 include "components:workflow-support"
+include "components:database-support"
+
+include "databases:news-db"

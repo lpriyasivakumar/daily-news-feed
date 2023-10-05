@@ -1,20 +1,20 @@
-package io.collective.start.collector
+package io.collective.start.analyzer
 
 import io.collective.workflow.WorkFinder
 import org.slf4j.LoggerFactory
 
-class ExampleWorkFinder : WorkFinder<ExampleTask> {
+class AnalysisWorkFinder : WorkFinder<AnalysisTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
-    override fun findRequested(name: String): List<ExampleTask> {
+    override fun findRequested(name: String): List<AnalysisTask> {
         logger.info("finding work.")
 
-        val work = ExampleTask("some info")
+        val work = AnalysisTask("some info")
 
         return mutableListOf(work)
     }
 
-    override fun markCompleted(info: ExampleTask) {
+    override fun markCompleted(info: AnalysisTask) {
         logger.info("marking work complete.")
     }
 }

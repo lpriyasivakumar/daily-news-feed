@@ -4,6 +4,19 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14.3
+        ports:
+          - '5555:5432'
+        env:
+          POSTGRES_DB: 'news_dev'
+          POSTGRES_USER: 'news-reader'
+          POSTGRES_PASSWORD: 'news-reader'
+          ADDITIONAL_POSTGRES_DBS: 'news_test'
+        volumes:
+          - ./databases/init-scripts:/docker-entrypoint-initdb.d
+          - ./.docker-data/.pg-data:/var/lib/postgresql/data
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 16
@@ -13,5 +26,7 @@ jobs:
           java-version: 16
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run migrations
+        run: ./gradlew devMigrate testMigrate
       - name: Build with Gradle
         run: ./gradlew build

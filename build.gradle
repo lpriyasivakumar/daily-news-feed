@@ -31,10 +31,16 @@ subprojects {
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         implementation "io.ktor:ktor-server-core:$ktor_version"
+        implementation "io.ktor:ktor-client-core:$ktor_version"
+        implementation "io.ktor:ktor-client-java:$ktor_version"
         implementation "io.ktor:ktor-server-netty:$ktor_version"
         implementation "io.ktor:ktor-html-builder:$ktor_version"
+        implementation "io.ktor:ktor-jackson:$ktor_version"
+        implementation "io.ktor:ktor-client-jackson:$ktor_version"
 
         implementation "ch.qos.logback:logback-classic:1.2.3"
+        implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.4"
+        implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.4"
 
         testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
         testImplementation group: 'junit', name: 'junit', version: '4.12'
@@ -50,6 +56,11 @@ subprojects {
         test.kotlin.srcDir "src/test/kotlin"
         test.resources.srcDir "src/test/resources"
     }
+
+    tasks.withType(Copy).all {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
 
     // needed for heroku
     task stage(dependsOn: ['build', 'clean'])

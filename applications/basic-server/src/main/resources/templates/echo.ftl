@@ -3,7 +3,7 @@
 <@layout.noauthentication>
     <section class="container">
         <div>
-           <p>You entered ${text}</p>
+            <p>You entered ${text}</p>
         </div>
     </section>
 

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  news-db:
+    image: postgres:14.3
+    container_name: news-database
+    ports:
+      - '5555:5432'
+    environment:
+      POSTGRES_DB: 'news_dev'
+      POSTGRES_USER: 'news-reader'
+      POSTGRES_PASSWORD: 'news-reader'
+      ADDITIONAL_POSTGRES_DBS: 'news_test'
+    volumes:
+      - ./databases/init-scripts:/docker-entrypoint-initdb.d
+      - ./.docker-data/.pg-data:/var/lib/postgresql/data
