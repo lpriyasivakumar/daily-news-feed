@@ -1,6 +1,7 @@
 version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = "io.collective.start.analyzer.AppKt"
 
@@ -20,5 +21,11 @@ jar {
     }
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+shadowJar {
+    manifest {
+        attributes "Main-Class": "io.collective.start.analyzer.AppKt"
     }
 }

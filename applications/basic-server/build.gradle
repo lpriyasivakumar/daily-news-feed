@@ -1,8 +1,11 @@
 version '1.0-SNAPSHOT'
 
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'application'
 
 mainClassName = "io.collective.start.AppKt"
+
+
 
 dependencies {
     implementation "io.ktor:ktor-freemarker:$ktor_version"
@@ -21,5 +24,11 @@ jar {
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+shadowJar {
+    manifest {
+        attributes "Main-Class": "io.collective.start.AppKt"
     }
 }
