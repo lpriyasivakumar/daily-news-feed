@@ -11,4 +11,3 @@ out
 applications/basic-server/.env
 applications/data-analyzer-server/.env
 applications/data-collector-server/.env
-.docker-data
