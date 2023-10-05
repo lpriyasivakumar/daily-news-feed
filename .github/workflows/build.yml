@@ -1,4 +1,4 @@
-name: gradle-build
+name: build and deploy
 on:
   push:
 jobs:
@@ -26,3 +26,54 @@ jobs:
         run: ./gradlew testMigrate
       - name: Build with Gradle
         run: ./gradlew build
+  analyzer:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "daily-news-analyzer" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+          docker_build_args: |
+            PORT
+            APP
+        env:
+          PORT: 8081
+          APP: ./applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
+  collector:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "daily-news-collector" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+          docker_build_args: |
+            PORT
+            APP
+        env:
+          PORT: 8761
+          APP: ./applications/data-collector-server/build/libs/data-collector-server-1.0-SNAPSHOT.jar
+  web:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "daily-news-feed" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+          docker_build_args: |
+            PORT
+            APP
+        env:
+          PORT: 8080
+          APP: ./applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar
