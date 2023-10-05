@@ -11,8 +11,8 @@ jobs:
           - '5555:5432'
         env:
           POSTGRES_DB: 'news_test'
-          POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'postgres'
+          POSTGRES_USER: 'news-reader'
+          POSTGRES_PASSWORD: 'news-reader'
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 16
