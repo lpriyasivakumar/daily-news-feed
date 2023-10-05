@@ -10,7 +10,7 @@ jobs:
         ports:
           - '5555:5432'
         env:
-          POSTGRES_DB: 'news_dev'
+          POSTGRES_DB: 'news_test'
           POSTGRES_USER: 'postgres'
           POSTGRES_PASSWORD: 'postgres'
     steps:
