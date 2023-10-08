@@ -13,7 +13,7 @@ data class NewsArticle(
     @JsonProperty("source_id")
     val sourceName: String,
     var title: String,
-    val description: String,
+    val description: String?,
     val content: String?,
     @JsonProperty("link")
     val url: String,

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 class WorkScheduler<T>(
     private val finder: WorkFinder<T>,
     private val workers: MutableList<Worker<T>>,
-    private val delay: Long = 10L
+    private val delay: Long = 24L
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -36,7 +36,7 @@ class WorkScheduler<T>(
         workers.forEach { worker ->
             logger.info("scheduling worker {}", worker.name)
 
-            pool.scheduleWithFixedDelay(checkForWork(worker), 0, delay, TimeUnit.SECONDS)
+            pool.scheduleWithFixedDelay(checkForWork(worker), 0, delay, TimeUnit.HOURS)
         }
     }
 

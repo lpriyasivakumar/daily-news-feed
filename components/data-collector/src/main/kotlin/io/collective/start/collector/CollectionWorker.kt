@@ -4,6 +4,7 @@ import io.collective.database.dataSource
 import io.collective.news.NewsDataGateway
 import io.collective.news.NewsResponse
 import io.collective.news.NewsService
+import io.collective.start.rest.ApiInterface
 import io.collective.workflow.Worker
 import io.ktor.client.*
 import io.ktor.client.features.json.*

@@ -9,28 +9,32 @@ that includes a single web application with two background workers.
 
 ### Technology stack
 
-This codebase is written in a language called [Kotlin](https://kotlinlang.org) that is able to run on the JVM with full
-Java compatibility.
+This application fetched news data from an api and saves it to a database. 
+The new articles are run through an analyzer and then displayed in the front-end application.
 It uses the [Ktor](https://ktor.io) web framework, and runs on the [Netty](https://netty.io/) web server.
 HTML templates are written using [Freemarker](https://freemarker.apache.org).
 The codebase is tested with [JUnit](https://junit.org/) and uses [Gradle](https://gradle.org) to build a jarfile.
-The [pack cli](https://buildpacks.io/docs/tools/pack/) is used to build a [Docker](https://www.docker.com/) container
-which is deployed to
-[Google Cloud](https://cloud.google.com/) on Google's Cloud Platform.
+The code is deployed on heroku
 
 ## Getting Started
 
-## Development
+## Setup steps
+
+1. Run docker containers to get database server started
+   ```bash
+   docker-compose up 
+   ```
+
+1. Run migrations from the root of the project  
+   ```bash
+   ./gradlew devMigrate testMigrate
+   ```
 
 1. Build a Java Archive (jar) file.
    ```bash
    ./gradlew clean build
    ```
 
-1. Configure the port that each server runs on.
-   ```bash
-   export PORT=8881
-   ```
 
 Run the servers locally using the below examples.
 
@@ -54,23 +58,7 @@ Run the servers locally using the below examples.
 
 ## Production
 
-Building a Docker container and running with Docker.
+The app is deployed using the github workflow to heroku cloud using docker.
 
-## Buildpacks
 
-1. Install the [pack](https://buildpacks.io/docs/tools/pack/) CLI.
-   ```bash
-   brew install buildpacks/tap/pack
-   ```
 
-1. Build using pack.
-   ```bash
-   pack build kotlin-ktor-starter --builder heroku/buildpacks:20
-   ```
-
-1. Run with docker.
-   ```bash
-   docker run  -e "PORT=8882" -e "APP=applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar" kotlin-ktor-starter
-   ```
-
-That's a wrap for now.

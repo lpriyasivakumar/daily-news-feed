@@ -2,6 +2,7 @@ package io.collective.start.collector
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
+import io.collective.start.rest.ApiInterface
 import io.collective.workflow.WorkScheduler
 import io.ktor.application.*
 import io.ktor.features.*
@@ -29,8 +30,8 @@ fun Application.module() {
             call.respondText("hi!", ContentType.Text.Html)
         }
     }
-    registerNewsRoutes()
-    val scheduler = WorkScheduler<CollectionTask>(CollectionWorkFinder(), mutableListOf(CollectionWorker()), 30)
+    registerNewsRoutes(ApiInterface())
+    val scheduler = WorkScheduler(CollectionWorkFinder(), mutableListOf(CollectionWorker()), 30)
     scheduler.start()
 }
 
