@@ -23,6 +23,7 @@ class BasicRabbitListener(
                     delivery.setChannel(channel)
                     while (running) {
                         try {
+                            channel.basicQos(5)
                             channel.basicConsume(queue, autoAck, delivery, cancel)
                         } catch (e: Exception) {
                             e.printStackTrace()
