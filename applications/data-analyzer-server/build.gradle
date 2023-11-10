@@ -7,7 +7,8 @@ mainClassName = "io.collective.start.analyzer.AppKt"
 
 dependencies {
     implementation project(":components:data-analyzer")
-    implementation project(":components:workflow-support")
+    implementation project(path: ':components:messaging-support')
+    implementation project(path: ':components:news')
 }
 
 tasks.withType(Copy).all {

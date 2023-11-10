@@ -4,6 +4,7 @@ dependencies {
     implementation project(":components:workflow-support")
     implementation project(":components:database-support")
     implementation project(":components:news")
+    implementation project(path: ':components:messaging-support')
 }
 processTestResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

@@ -1,10 +1,10 @@
 package io.collective.start.collector
 
-import io.collective.database.dataSource
-import io.collective.news.NewsDataGateway
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import io.collective.messaging.BasicDispatcher
+import io.collective.news.NewsArticle
 import io.collective.news.NewsResponse
-import io.collective.news.NewsService
-import io.collective.start.rest.ApiInterface
 import io.collective.workflow.Worker
 import io.ktor.client.*
 import io.ktor.client.features.json.*
@@ -13,10 +13,9 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
-class CollectionWorker(override val name: String = "data-collector") : Worker<CollectionTask> {
+class CollectionWorker(override val name: String = "data-collector", val rabbitUri: String, val routingKey: String) : Worker<CollectionTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
-    private val dataGateway = NewsDataGateway(dataSource())
-    private val newsService = NewsService(dataGateway)
+    private val mapper: ObjectMapper = ObjectMapper().registerKotlinModule()
     private val client = HttpClient {
         expectSuccess = true
         install(JsonFeature) {
@@ -35,14 +34,24 @@ class CollectionWorker(override val name: String = "data-collector") : Worker<Co
                 parameter("language", "en")
 
             }
-            save(response)
+            response.results.forEach { it -> send(it) }
             client.close()
 
             logger.info("completed data collection.")
         }
     }
 
-    private fun save(response: NewsResponse) {
-        response.results.forEach { it -> newsService.save(it) }
+    private fun send(article: NewsArticle) {
+        try {
+            val body = mapper.writeValueAsString(article).toByteArray()
+            BasicDispatcher(rabbitUri,"news-analysis-exchange",body,routingKey).send()
+        } catch (e: Exception) {
+            logger.error(
+                "Error, failed to queue article with id {} and title {}",
+                article.id,
+                article.title,
+            )
+            e.printStackTrace()
+        }
     }
 }

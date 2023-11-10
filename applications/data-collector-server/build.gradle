@@ -8,6 +8,9 @@ mainClassName = "io.collective.start.collector.AppKt"
 dependencies {
     implementation project(":components:data-collector")
     implementation project(":components:workflow-support")
+    implementation project(":components:messaging-support")
+    implementation project(path: ':components:news')
+    implementation project(path: ':components:database-support')
 }
 
 tasks.withType(Copy).all {

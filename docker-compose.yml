@@ -14,3 +14,12 @@ services:
     volumes:
       - ./databases/init-scripts:/docker-entrypoint-initdb.d
       - ./.docker-data/.pg-data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:3.10-management-alpine
+    container_name: news-feed-rabbit
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ./.docker-data/.rabbit-data:/var/lib/rabbitmq/
+      - ./.docker-data/.rabbit-log:/var/log/rabbitmq

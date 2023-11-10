@@ -1,20 +1,20 @@
 package io.collective.start.collector
 
-import io.collective.start.rest.ApiInterface
+import io.collective.news.NewsService
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-fun Route.newsRouting(apiInterface: ApiInterface) {
+fun Route.newsRouting(newsService: NewsService) {
     route("/news") {
         get {
-            call.respond(apiInterface.findAll())
+            call.respond(newsService.findAll())
         }
     }
 }
 
-fun Application.registerNewsRoutes(apiInterface: ApiInterface) {
+fun Application.registerNewsRoutes(newsService: NewsService) {
     routing {
-        newsRouting(apiInterface)
+        newsRouting(newsService)
     }
 }
