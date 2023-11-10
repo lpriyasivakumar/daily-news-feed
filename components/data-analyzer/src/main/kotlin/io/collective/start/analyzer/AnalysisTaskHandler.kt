@@ -33,7 +33,7 @@ class AnalysisTaskHandler(rabbitUri: String) : ChannelDeliverCallback {
             channel?.basicAck(message.envelope.deliveryTag, false)
         } catch(ex: Exception) {
             ex.printStackTrace()
-            channel?.basicReject(message.envelope.deliveryTag, true)
+            channel?.basicReject(message.envelope.deliveryTag, false)
         }
     }
 

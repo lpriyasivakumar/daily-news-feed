@@ -11,8 +11,9 @@ class BasicDispatcher(
 ){
     private val factory = ConnectionFactory().apply { useNio() }
      fun send(){
-        factory.setUri(rabbitUri)
-        factory.newConnection().use { connection ->
+         factory.setUri(rabbitUri)
+         factory.setConnectionTimeout(30000)
+         factory.newConnection().use { connection ->
             connection.createChannel().use { channel ->
                 channel.basicPublish(exchange, routingKey, MessageProperties.PERSISTENT_BASIC, messageBody)
             }

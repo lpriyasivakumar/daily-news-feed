@@ -6,6 +6,7 @@ class BasicRabbitConfiguration(private val rabbitUri: String, private val exchan
     fun setUp() {
         val connectionFactory = ConnectionFactory()
         connectionFactory.setUri(rabbitUri)
+        connectionFactory.setConnectionTimeout(30000)
         val connection = connectionFactory.newConnection()
 
         connection.createChannel().use { channel ->

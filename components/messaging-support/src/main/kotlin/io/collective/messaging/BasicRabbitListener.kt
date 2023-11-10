@@ -17,6 +17,7 @@ class BasicRabbitListener(
 
     fun start() {
         connectionFactory.setUri(rabbitUri)
+        connectionFactory.setConnectionTimeout(30000)
         thread {
             connectionFactory.newConnection().use { connection ->
                 connection.createChannel().use { channel ->
