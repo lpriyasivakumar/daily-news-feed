@@ -29,6 +29,7 @@ class AnalysisTaskHandler(rabbitUri: String) : ChannelDeliverCallback {
         try {
             logger.info("Article in queue {}", article.title)
             analysisService.analyzeAndSend(article)
+            Thread.sleep(1000L)
             channel?.basicAck(message.envelope.deliveryTag, true)
         } catch(ex: Exception) {
             ex.printStackTrace()

@@ -11,7 +11,7 @@ import io.collective.news.NewsService
 import org.slf4j.LoggerFactory
 
 
-class SaveHandler(private val newsService: NewsService): ChannelDeliverCallback {
+class  SaveHandler(private val newsService: NewsService): ChannelDeliverCallback {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper = ObjectMapper().registerKotlinModule()
     private var channel: Channel? = null
@@ -30,6 +30,7 @@ class SaveHandler(private val newsService: NewsService): ChannelDeliverCallback 
         )
         try {
             newsService.save(article)
+            Thread.sleep(1000L)
             channel?.basicAck(message.envelope.deliveryTag, true)
         } catch(ex: Exception) {
             ex.printStackTrace()
