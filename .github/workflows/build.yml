@@ -13,6 +13,11 @@ jobs:
           POSTGRES_DB: 'news_test'
           POSTGRES_USER: 'news-reader'
           POSTGRES_PASSWORD: 'news-reader'
+      rabbitmq:
+        image: rabbitmq:3.10-management-alpine
+        ports:
+          - '5672:5672'
+          - '15672:15672'
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 16
