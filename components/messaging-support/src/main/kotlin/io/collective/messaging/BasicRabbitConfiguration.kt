@@ -1,21 +1,30 @@
 package io.collective.messaging
 
+import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.ConnectionFactory
 
 
-class BasicRabbitConfiguration(private val rabbitUri: String, private val exchange: String, private val queue: String, private val routingKey: String) {
+class BasicRabbitConfiguration(private val rabbitUri: String,
+                               private val exchange: String,
+                               private val queue: String,
+                               private val routingKey: String,
+                               private val subscribe: Boolean,
+                               private val callback: ChannelDeliverCallback?
+) {
     fun setUp() {
-        val connectionFactory = ConnectionFactory()
+        val connectionFactory = ConnectionFactory().apply { useBlockingIo() }
         connectionFactory.setUri(rabbitUri)
         connectionFactory.setConnectionTimeout(30000)
         val connection = connectionFactory.newConnection()
 
-        connection.createChannel().use { channel ->
-            channel.exchangeDeclare(exchange, "direct", false, false, null)
-            val arguments: MutableMap<String, Any> = HashMap()
-            arguments["x-single-active-consumer"] = true
-            channel.queueDeclare(queue, false, false, false, arguments)
-            channel.queueBind(queue, exchange, routingKey)
+        val channel = connection.createChannel()
+        channel.exchangeDeclare(exchange, "direct", false, false, null)
+        channel.queueDeclare(queue, false, false, false, null)
+        channel.queueBind(queue, exchange, routingKey)
+        if (subscribe) {
+            connectionFactory.isAutomaticRecoveryEnabled = true
+            callback?.setChannel(channel)
+            channel.basicConsume(queue, false, callback, CancelHandler())
         }
     }
 }

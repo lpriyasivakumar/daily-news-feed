@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.collective.database.dataSource
 import io.collective.messaging.BasicRabbitConfiguration
-import io.collective.messaging.BasicRabbitListener
 import io.collective.news.NewsDataGateway
 import io.collective.news.NewsService
 import io.collective.workflow.WorkScheduler
@@ -40,16 +39,9 @@ fun Application.module() {
     }
     registerNewsRoutes(newsService)
     //Analysis exchange - to publish to
-    BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis").setUp()
+    BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis", subscribe = false, null).setUp()
     //Save exchange - to consume from
-    BasicRabbitConfiguration(rabbitUri, exchange = "news-save-exchange", queue = "news-save", routingKey = "auto-save").setUp()
-    BasicRabbitListener(
-        rabbitUri = rabbitUri,
-        queue = "news-save",
-        delivery = SaveHandler(newsService),
-        cancel = { logger.info("Cancelled") },
-        autoAck = false,
-    ).start()
+    BasicRabbitConfiguration(rabbitUri, exchange = "news-save-exchange", queue = "news-save", routingKey = "auto-save", subscribe = true, SaveHandler(newsService)).setUp()
     val scheduler = WorkScheduler(CollectionWorkFinder(), mutableListOf(CollectionWorker(rabbitUri= rabbitUri, routingKey="auto-analysis")), 30)
     scheduler.start()
 }

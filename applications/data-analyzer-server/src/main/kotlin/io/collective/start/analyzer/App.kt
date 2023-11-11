@@ -1,7 +1,6 @@
 package io.collective.start.analyzer
 
 import io.collective.messaging.BasicRabbitConfiguration
-import io.collective.messaging.BasicRabbitListener
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -23,16 +22,9 @@ fun Application.module() {
         }
     }
     //Analysis exchange - to publish to
-    BasicRabbitConfiguration(rabbitUri, exchange = "news-save-exchange", queue = "news-save", routingKey = "auto-save").setUp()
+    BasicRabbitConfiguration(rabbitUri, exchange = "news-save-exchange", queue = "news-save", routingKey = "auto-save", subscribe = false, null).setUp()
     //Save exchange - to consume from
-    BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis").setUp()
-    BasicRabbitListener(
-        rabbitUri = rabbitUri,
-        queue = "news-analysis",
-        delivery = AnalysisTaskHandler(rabbitUri),
-        cancel = { logger.info("Cancelled") },
-        autoAck = false,
-    ).start()
+    BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis", subscribe = true, callback = AnalysisTaskHandler(rabbitUri)).setUp()
 }
 
 fun main() {

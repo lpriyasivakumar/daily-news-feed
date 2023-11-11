@@ -2,7 +2,8 @@ package io.collective.start.collector
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import io.collective.messaging.BasicDispatcher
+import com.rabbitmq.client.ConnectionFactory
+import com.rabbitmq.client.MessageProperties
 import io.collective.news.NewsArticle
 import io.collective.news.NewsResponse
 import io.collective.workflow.Worker
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory
 class CollectionWorker(override val name: String = "data-collector", val rabbitUri: String, val routingKey: String) : Worker<CollectionTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper: ObjectMapper = ObjectMapper().registerKotlinModule()
+    private val factory = ConnectionFactory().apply { useNio() }
     private val client = HttpClient {
         expectSuccess = true
         install(JsonFeature) {
@@ -36,7 +38,6 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
             }
             response.results.forEach { it -> send(it) }
             client.close()
-
             logger.info("completed data collection.")
         }
     }
@@ -44,11 +45,17 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
     private fun send(article: NewsArticle) {
         try {
             val body = mapper.writeValueAsString(article).toByteArray()
-            BasicDispatcher(rabbitUri,"news-analysis-exchange",body,routingKey).send()
+            factory.setUri(rabbitUri)
+            factory.setConnectionTimeout(30000)
+            factory.newConnection().use { connection ->
+                connection.createChannel().use { channel ->
+                    channel.basicPublish("news-analysis-exchange", routingKey, MessageProperties.PERSISTENT_BASIC, body)
+                }
+            }
         } catch (e: Exception) {
             logger.error(
                 "Error, failed to queue article with id {} and title {}",
-                article.id,
+                article.sourceId,
                 article.title,
             )
             e.printStackTrace()

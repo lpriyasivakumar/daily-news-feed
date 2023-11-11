@@ -21,17 +21,19 @@ class  SaveHandler(private val newsService: NewsService): ChannelDeliverCallback
     }
 
     override fun handle(consumerTag: String, message: Delivery) {
-        val article = mapper.readValue<NewsArticle>(message.body)
-
-        logger.info(
-            "received article with id {} title {}",
-            article.id,
-            article.title,
-        )
         try {
-            newsService.save(article)
-            channel?.basicAck(message.envelope.deliveryTag, false)
-        } catch(ex: Exception) {
+            logger.info("Handling save message {}", message.properties)
+            if (message.body != null) {
+                val article = mapper.readValue<NewsArticle>(message.body)
+                logger.info(
+                    "received article with id {} title {}",
+                    article.id,
+                    article.title,
+                )
+                newsService.save(article)
+            }
+            channel?.basicAck(message.envelope.deliveryTag, true)
+        } catch (ex: Exception) {
             ex.printStackTrace()
             channel?.basicReject(message.envelope.deliveryTag, false)
         }
