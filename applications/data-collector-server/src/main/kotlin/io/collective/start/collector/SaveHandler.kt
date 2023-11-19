@@ -1,5 +1,6 @@
 package io.collective.start.collector
 
+import com.codahale.metrics.MetricRegistry
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -11,11 +12,11 @@ import io.collective.news.NewsService
 import org.slf4j.LoggerFactory
 
 
-class  SaveHandler(private val newsService: NewsService): ChannelDeliverCallback {
+class  SaveHandler(private val newsService: NewsService, registry: MetricRegistry): ChannelDeliverCallback {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper = ObjectMapper().registerKotlinModule()
     private var channel: Channel? = null
-
+    private val saveRequests = registry.meter("article-save-requests")
     override fun setChannel(channel: Channel) {
         this.channel = channel
     }
@@ -31,6 +32,7 @@ class  SaveHandler(private val newsService: NewsService): ChannelDeliverCallback
                     article.title,
                 )
                 newsService.save(article)
+                saveRequests.mark()
             }
             channel?.basicAck(message.envelope.deliveryTag, true)
         } catch (ex: Exception) {

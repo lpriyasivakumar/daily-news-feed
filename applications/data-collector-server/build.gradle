@@ -9,8 +9,9 @@ dependencies {
     implementation project(":components:data-collector")
     implementation project(":components:workflow-support")
     implementation project(":components:messaging-support")
-    implementation project(path: ':components:news')
-    implementation project(path: ':components:database-support')
+    implementation project(":components:metrics-support")
+    implementation project(":components:news")
+    implementation project(":components:database-support")
 }
 
 tasks.withType(Copy).all {

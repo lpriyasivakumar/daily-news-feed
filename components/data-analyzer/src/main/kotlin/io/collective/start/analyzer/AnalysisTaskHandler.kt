@@ -1,5 +1,6 @@
 package io.collective.start.analyzer
 
+import com.codahale.metrics.MetricRegistry
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -9,11 +10,12 @@ import io.collective.messaging.ChannelDeliverCallback
 import io.collective.news.NewsArticle
 import org.slf4j.LoggerFactory
 
-class AnalysisTaskHandler(rabbitUri: String) : ChannelDeliverCallback {
+class AnalysisTaskHandler(rabbitUri: String, registry: MetricRegistry) : ChannelDeliverCallback {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper = ObjectMapper().registerKotlinModule()
     private var channel: Channel? = null
     private val analysisService = AnalysisService(rabbitUri, "auto-save")
+    private val analysisRequests = registry.meter("article-analysis-requests")
     override fun setChannel(channel: Channel) {
         this.channel = channel
     }
@@ -29,6 +31,7 @@ class AnalysisTaskHandler(rabbitUri: String) : ChannelDeliverCallback {
         try {
             logger.info("Article in queue {}", article.title)
             analysisService.analyzeAndSend(article)
+            analysisRequests.mark()
             channel?.basicAck(message.envelope.deliveryTag, true)
         } catch(ex: Exception) {
             ex.printStackTrace()

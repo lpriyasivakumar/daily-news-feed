@@ -1,5 +1,6 @@
 package io.collective.start.collector
 
+import com.codahale.metrics.MetricRegistry
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.rabbitmq.client.ConnectionFactory
@@ -14,7 +15,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
-class CollectionWorker(override val name: String = "data-collector", val rabbitUri: String, val routingKey: String) : Worker<CollectionTask> {
+class CollectionWorker(override val name: String = "data-collector", val rabbitUri: String, val routingKey: String, registry: MetricRegistry) : Worker<CollectionTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper: ObjectMapper = ObjectMapper().registerKotlinModule()
     private val factory = ConnectionFactory().apply { useNio() }
@@ -25,6 +26,7 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
             }
         }
     }
+    private val articleDispatches = registry.meter("article-collections")
 
     override fun execute(task: CollectionTask) {
         runBlocking {
@@ -52,6 +54,7 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
                     channel.basicPublish("news-analysis-exchange", routingKey, MessageProperties.PERSISTENT_BASIC, body)
                 }
             }
+            articleDispatches.mark()
         } catch (e: Exception) {
             logger.error(
                 "Error, failed to queue article with id {} and title {}",

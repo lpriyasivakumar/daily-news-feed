@@ -10,5 +10,6 @@ include "components:data-analyzer"
 include "components:workflow-support"
 include "components:database-support"
 include "components:messaging-support"
+include "components:metrics-support"
 
 include "databases:news-db"
