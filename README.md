@@ -20,6 +20,8 @@ The code is deployed on heroku
 
 ## Setup steps
 
+
+
 1. Run docker containers in a terminal window to get database server started
    ```bash
    docker-compose up 
@@ -58,7 +60,7 @@ Run the servers locally using the below examples.
 
 ## Production
 
-The app is deployed using the github workflow to heroku cloud using docker.
+The app is deployed using the github workflow to heroku cloud using docker
 
 
 
