@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter
     content             varchar not null,
     url                 varchar not null,
     image_url           varchar not null,
+    sentiment           smallInt default -1,
     published_at        timestamp default current_timestamp
 
  */
@@ -24,6 +25,7 @@ data class NewsRecord(
     val content: String,
     val url: String,
     val imageUrl: String,
+    val sentiment: Number,
     val publishedAt: LocalDateTime
 )
 
@@ -36,5 +38,6 @@ fun NewsArticle.toRecord() = NewsRecord(
     content = content ?: "",
     url = url,
     imageUrl = imageUrl ?: "",
+    sentiment = sentiment ?: -1,
     publishedAt = LocalDateTime.parse(publishedAt, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
 )

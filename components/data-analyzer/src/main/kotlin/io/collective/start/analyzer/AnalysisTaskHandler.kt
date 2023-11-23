@@ -9,6 +9,7 @@ import com.rabbitmq.client.Delivery
 import io.collective.messaging.ChannelDeliverCallback
 import io.collective.news.NewsArticle
 import org.slf4j.LoggerFactory
+import java.util.Properties
 
 class AnalysisTaskHandler(rabbitUri: String, registry: MetricRegistry) : ChannelDeliverCallback {
     private val logger = LoggerFactory.getLogger(this.javaClass)

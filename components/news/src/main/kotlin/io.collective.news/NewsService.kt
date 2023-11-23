@@ -20,6 +20,7 @@ class NewsService(private val dataGateway: NewsDataGateway) {
             record.content,
             record.url,
             record.imageUrl,
+            record.sentiment,
             record.publishedAt
         )
         return findBy(entity.id)

@@ -8,6 +8,7 @@ create table news_articles
     content      varchar not null,
     url          varchar not null,
     image_url    varchar not null,
+    sentiment    smallint default -1,
     published_at timestamp default current_timestamp,
     unique (source_id)
 );

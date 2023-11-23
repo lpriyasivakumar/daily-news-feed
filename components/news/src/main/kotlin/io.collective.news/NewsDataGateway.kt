@@ -19,6 +19,7 @@ class NewsDataGateway(private val dataSource: DataSource) {
         content: String,
         url: String,
         imageUrl: String,
+        sentiment: Number,
         publishedAt: LocalDateTime
     ): NewsRecord {
         println(publishedAt.toString())
@@ -32,9 +33,10 @@ class NewsDataGateway(private val dataSource: DataSource) {
                                     content,
                                     url,
                                     image_url,
-                                    published_at) values (?,?,?,?,?,?,?,?)""", { id ->
-                NewsRecord(id, sourceId ?: "", sourceName, title, description, content, url, imageUrl, publishedAt)
-            }, sourceId ?: ' ', sourceName, title, description, content, url, imageUrl, publishedAt.toString()
+                                    sentiment,
+                                    published_at) values (?,?,?,?,?,?,?,?,?)""", { id ->
+                NewsRecord(id, sourceId ?: "", sourceName, title, description, content, url, imageUrl, sentiment, publishedAt)
+            }, sourceId ?: ' ', sourceName, title, description, content, url, imageUrl, sentiment, publishedAt.toString()
         )
     }
 
@@ -49,7 +51,8 @@ class NewsDataGateway(private val dataSource: DataSource) {
                 rs.getString(6),
                 rs.getString(7),
                 rs.getString(8),
-                LocalDateTime.parse(rs.getString(9), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+                rs.getInt(9),
+                LocalDateTime.parse(rs.getString(10), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
             )
         }
     }
@@ -66,7 +69,8 @@ class NewsDataGateway(private val dataSource: DataSource) {
                     rs.getString(6),
                     rs.getString(7),
                     rs.getString(8),
-                    LocalDateTime.parse(rs.getString(9), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+                    rs.getInt(9),
+                    LocalDateTime.parse(rs.getString(10), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
                 )
             }, id
         )
@@ -84,7 +88,8 @@ class NewsDataGateway(private val dataSource: DataSource) {
                     rs.getString(6),
                     rs.getString(7),
                     rs.getString(8),
-                    LocalDateTime.parse(rs.getString(9), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+                    rs.getInt(9),
+                    LocalDateTime.parse(rs.getString(10), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
                 )
             }, date.toString()
         )

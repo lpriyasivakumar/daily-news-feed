@@ -22,7 +22,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorRegistry) {
-    val logger = LoggerFactory.getLogger(this.javaClass)
     val rabbitUri = System.getenv("RABBIT_URI") ?: "amqp://localhost:5672"
     val reporter = Slf4jReporter.forRegistry(registry)
         .outputTo(LoggerFactory.getLogger("io.collective.start"))

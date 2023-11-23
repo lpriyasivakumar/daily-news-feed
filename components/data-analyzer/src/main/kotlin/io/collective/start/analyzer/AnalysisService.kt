@@ -11,10 +11,13 @@ class AnalysisService(private val rabbitUri: String, private val routingKey: Str
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper: ObjectMapper = ObjectMapper().registerKotlinModule()
     private val factory = ConnectionFactory().apply { useNio() }
-
+    private val analyzer = SentimentAnalyzer()
     fun analyzeAndSend(article: NewsArticle) {
         logger.info("Start Analysis")
         //Running sentiment analysis
+        val sentiment = analyzer.getSentiment(article.title)
+        logger.info("Sentiment {} ", sentiment)
+        article.sentiment = sentiment
         logger.info("Dispatching article with title{} to save queue", article.title)
         val body = mapper.writeValueAsString(article).toByteArray()
         try {
