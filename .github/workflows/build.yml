@@ -45,9 +45,11 @@ jobs:
           docker_build_args: |
             PORT
             APP
+            BUILD_PATH
         env:
           PORT: 8081
-          APP: ./applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
+          BUILD_PATH: ./applications/data-analyzer-server/build/libs/*
+          APP: data-analyzer-server-1.0-SNAPSHOT.jar
   collector:
     needs: test
     runs-on: ubuntu-latest
@@ -62,9 +64,11 @@ jobs:
           docker_build_args: |
             PORT
             APP
+            BUILD_PATH
         env:
           PORT: 8761
-          APP: ./applications/data-collector-server/build/libs/data-collector-server-1.0-SNAPSHOT.jar
+          BUILD_PATH: ./applications/data-collector-server/build/libs/*
+          APP: data-collector-server-1.0-SNAPSHOT.jar
   web:
     needs: test
     runs-on: ubuntu-latest
@@ -79,6 +83,8 @@ jobs:
           docker_build_args: |
             PORT
             APP
+            BUILD_PATH
         env:
           PORT: 8080
-          APP: ./applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar
+          BUILD_PATH: ./applications/basic-server/build/libs/*
+          APP: basic-server-1.0-SNAPSHOT.jar

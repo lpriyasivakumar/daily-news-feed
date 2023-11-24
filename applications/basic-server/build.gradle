@@ -11,7 +11,6 @@ dependencies {
     implementation ("io.ktor:ktor-freemarker:$ktor_version")
     implementation project(":components:metrics-support")
     implementation project(":components:news")
-    implementation project(path: ':components:news')
 }
 
 tasks.withType(Copy).all {
@@ -30,7 +29,6 @@ jar {
 }
 
 shadowJar {
-    minimize()
     manifest {
         attributes "Main-Class": "io.collective.start.AppKt"
     }

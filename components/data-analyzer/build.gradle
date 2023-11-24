@@ -8,7 +8,6 @@ dependencies {
         }
     }
     implementation project(":components:workflow-support")
-    implementation project(path: ':components:messaging-support')
-    implementation project(path: ':components:news')
-    implementation project(path: ':components:news')
+    implementation project(path: ":components:messaging-support")
+    implementation project(path: ":components:news")
 }

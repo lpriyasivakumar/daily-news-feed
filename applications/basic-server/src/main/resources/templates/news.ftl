@@ -2,27 +2,16 @@
 
 <@layout.noauthentication>
     <section class="container">
-        <table class="tblNews">
-            <tr>
-                <th>Source</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Content</th>
-                <th>Url</th>
-                <th>Sentiment</th>
-                <th>Date</th>
-            </tr>
+        <ul class="tblNews">
             <#list articles as article>
-            <tr>
-                <td>${article.sourceName}</td>
-                <td>${article.title}</td>
-                <td>${article.description}</td>
-                <td>${article.content}</td>
-                <td>${article.url}</td>
-                <td>${article.sentiment}</td>
-                <td>${article.publishedAt}</td>
-            </tr>
+            <li>
+                <div class="newsSection">
+                    <span>${article.title} >${article.sentiment}</span>
+                    <span>${article.sourceName} ${article.url} ${article.publishedAt}</span>
+                    <span>${article.content} </span>
+                </div>
+            </li>
             </#list>
-        </table>
+        </ul>
     </section>
 </@layout.noauthentication>
