@@ -7,7 +7,11 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import freemarker.cache.ClassTemplateLoader
 import io.collective.metrics.registerHealthRoute
 import io.collective.metrics.registerMetricsRoute
+import io.collective.news.NewsArticle
 import io.ktor.application.*
+import io.ktor.client.*
+import io.ktor.client.features.json.*
+import io.ktor.client.request.*
 import io.ktor.features.*
 import io.ktor.freemarker.*
 import io.ktor.http.*
@@ -35,6 +39,7 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
     collectorRegistry.register(DropwizardExports(registry))
     reporter.start(5, TimeUnit.SECONDS)
     val pageRequests = registry.meter("news-feed-requests")
+    val newsApiUrl = System.getenv("API_URL") ?: "http://localhost:8761/news"
     install(DefaultHeaders)
     install(CallLogging)
     install(FreeMarker) {
@@ -48,29 +53,9 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
             writerWithDefaultPrettyPrinter()
         }
     }
-    install(Routing) {
-        get("/") {
-            call.respond(FreeMarkerContent("index.ftl", mapOf("headers" to headers())))
-            pageRequests.mark()
-        }
-        post("/echo") {
-            val params = call.receiveParameters()
-            val text = params.getOrFail("user_input")
-            call.respond(FreeMarkerContent("echo.ftl", mapOf("headers" to headers(), "text" to text)))
-        }
-        static("images") { resources("images") }
-        static("style") { resources("style") }
-    }
+    registerNewsFeeds(newsApiUrl, pageRequests)
     registerHealthRoute()
     registerMetricsRoute(collectorRegistry)
-}
-
-private fun PipelineContext<Unit, ApplicationCall>.headers(): MutableMap<String, String> {
-    val headers = mutableMapOf<String, String>()
-    call.request.headers.entries().forEach { entry ->
-        headers[entry.key] = entry.value.joinToString()
-    }
-    return headers
 }
 
 fun main() {

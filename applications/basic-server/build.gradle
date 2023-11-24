@@ -10,8 +10,9 @@ mainClassName = "io.collective.start.AppKt"
 dependencies {
     implementation ("io.ktor:ktor-freemarker:$ktor_version")
     implementation ("io.ktor:ktor-jackson:$ktor_version")
-
     implementation project(":components:metrics-support")
+    implementation project(":components:news")
+    implementation project(path: ':components:news')
 }
 
 tasks.withType(Copy).all {

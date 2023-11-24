@@ -38,6 +38,6 @@ fun NewsArticle.toRecord() = NewsRecord(
     content = content ?: "",
     url = url,
     imageUrl = imageUrl ?: "",
-    sentiment = sentiment ?: -1,
+    sentiment = sentiment,
     publishedAt = LocalDateTime.parse(publishedAt, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
 )
