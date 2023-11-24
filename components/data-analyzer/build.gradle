@@ -4,7 +4,7 @@ dependencies {
     implementation ("edu.stanford.nlp:stanford-corenlp:4.5.5")
     implementation("edu.stanford.nlp:stanford-corenlp:4.5.5"){
         artifact {
-            classifier = 'models-english'
+            classifier = 'models'
         }
     }
     implementation project(":components:workflow-support")
