@@ -27,6 +27,7 @@ jar {
 }
 
 shadowJar {
+    minimize()
     manifest {
         attributes "Main-Class": "io.collective.start.analyzer.AppKt"
     }
