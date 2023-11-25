@@ -5,9 +5,13 @@ class NewsService(private val dataGateway: NewsDataGateway) {
         return dataGateway.findAll().map { it.toDto() }
     }
 
-    fun findBy(id: Long): NewsArticle {
+    private fun findBy(id: Long): NewsArticle {
         val record = dataGateway.findBy(id)!!
         return record.toDto()
+    }
+
+    fun findAllBySentiment(sentimentText: String?): List<NewsArticle> {
+        return dataGateway.findBySentiment(sentimentText).map { it.toDto() }
     }
 
     fun save(newsArticle: NewsArticle): NewsArticle {

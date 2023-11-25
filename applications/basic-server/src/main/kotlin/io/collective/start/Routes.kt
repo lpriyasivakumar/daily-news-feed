@@ -20,9 +20,10 @@ fun Route.newsFeedRouting(newsApiUrl: String, pageRequests: Meter) {
     route("/news-feed") {
         get {
             logger.info("Received news-feed request")
+            val params = call.parameters
+            val filterby = params["filterby"] ?:"all"
             val client = HttpClient { install(JsonFeature) { serializer = JacksonSerializer() } }
-            val response: List<NewsArticle> = client.get(newsApiUrl)
-            logger.debug(response.toString())
+            val response: List<NewsArticle> = client.get(newsApiUrl.plus("?filterby=$filterby"))
             client.close()
             call.respond(FreeMarkerContent("news.ftl", mapOf("headers" to headers(), "articles" to response)))
             pageRequests.mark()

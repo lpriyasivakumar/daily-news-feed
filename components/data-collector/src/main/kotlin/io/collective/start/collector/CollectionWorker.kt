@@ -36,7 +36,6 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
                 parameter("qInTitle", "autism OR developmental disability")
                 parameter("apiKey", task.apiKey)
                 parameter("language", "en")
-
             }
             response.results.forEach { it -> send(it) }
             client.close()

@@ -76,6 +76,8 @@ class NewsDataGateway(private val dataSource: DataSource) {
         )
     }
 
+
+
     fun findByDate(date: LocalDateTime): NewsRecord? {
         return template.findByField(
             "select * from news_articles where published_at = ?", { rs ->
@@ -93,5 +95,41 @@ class NewsDataGateway(private val dataSource: DataSource) {
                 )
             }, date.toString()
         )
+    }
+
+    fun findBySentiment(sentimentText: String?): List<NewsRecord> {
+        val query = buildQuery(sentimentText)
+        return template.findAll(query.plus(" order by published_at desc")) { rs ->
+            NewsRecord(
+                rs.getLong(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getString(5),
+                rs.getString(6),
+                rs.getString(7),
+                rs.getString(8),
+                rs.getInt(9),
+                LocalDateTime.parse(rs.getString(10), DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+            )
+        }
+    }
+
+    private fun buildQuery(sentimentText: String?): String {
+        return when (sentimentText) {
+            "positive" -> {
+                "select * from news_articles where sentiment > 2 and sentiment < 5 "
+            }
+
+            "negative" -> {
+                "select * from news_articles where sentiment < 2 and sentiment >= 0 "
+            }
+
+            "neutral" -> {
+                "select * from news_articles where sentiment = 2 "
+            } else -> {
+                "select * from news_articles "
+            }
+        }
     }
 }

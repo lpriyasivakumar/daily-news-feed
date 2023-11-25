@@ -58,6 +58,77 @@ footer {
     max-width: 65rem;
 }
 
+.container > h2 {
+    margin-top: 10px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    padding-top: 10px;
+}
+
+/* Add rounded corners to the top left and the top right corner of the image */
+img {
+    border-radius: 5px 5px 0 0;
+    width: 200px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.content {
+    padding: 2px 16px;
+}
+.news-details{
+    font-size: small;
+    font-weight: 400;
+    font-family: "Arial", serif;
+    padding-top: 10px;
+    width: 100%;
+}
+
+section.container > div {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+}
+
+section.container > div > h2{
+    padding-top: 10px;
+}
+
+.content > div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-btn{
+    display: inline-flex;
+    justify-content: space-between;
+    margin-left: auto;
+    padding-top: 5px;
+}
+
+.filter-btn > h2 {
+    margin-right: 5px;
+    padding-top: 5px;
+}
+
+div.filter-btn > a{
+    background-color: #414141;
+    color: white;
+    width: 85px;
+    height: 30px;
+    text-align: center;
+    margin-right: 5px;
+    padding-top: 5px;
+}
+
 a, a:visited, a:link {
     text-decoration: none;
     color: var(--blue);
