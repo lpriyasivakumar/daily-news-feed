@@ -27,7 +27,8 @@ The code is deployed on heroku
    docker-compose up 
    ```
 
-1. Run migrations from the root of the project  
+1. Run migrations from the root of the project with the docker containers running.
+Note: verify that the gradlew script has execute privileges if you run into permission errors.
    ```bash
    ./gradlew devMigrate testMigrate
    ```
@@ -60,7 +61,16 @@ Run the servers locally using the below examples.
 
 ## Production
 
-The app is deployed using the github workflow to heroku cloud using docker
+The app is deployed using the github actions workflow to heroku cloud using docker
 
+## Monitoring
 
+Metrics and health-check endpoints are provided for observability.
+A prometheus configuration file 'prometheus.yml' is provided at the root of the project to test with a prometheus server.
+
+## Notes
+The applications take a few minutes to fetch, analyze and save the news articles to the local database. 
+So it takes a few minutes to see the news feed on the web page.
+The webpage to view the results is at ‘http://localhost:8180/news-feed’
+The filter buttons reload the page with the sentiment filters applied.
 

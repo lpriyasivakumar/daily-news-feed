@@ -33,7 +33,7 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
             logger.info("starting data collection.")
             val response: NewsResponse = client.get(task.url) {
                 accept(ContentType.Application.Json)
-                parameter("qInTitle", "autism OR developmental disability")
+                parameter("qInTitle", "Technology OR IT OR AI")
                 parameter("apiKey", task.apiKey)
                 parameter("language", "en")
             }

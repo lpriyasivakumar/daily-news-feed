@@ -3,7 +3,7 @@
 <@layout.noauthentication>
     <section class="container">
         <div>
-            <h2>Latest News:</h2>
+            <h2>News Topics - AI, Technology</h2>
             <div class="filter-btn">
                 <h2>Filter By Sentiment:</h2>
                 <a href="/news-feed?filterby=all">All</a>
