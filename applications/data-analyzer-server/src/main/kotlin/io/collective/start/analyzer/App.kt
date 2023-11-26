@@ -50,7 +50,7 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
     //Analysis exchange - to publish to
     BasicRabbitConfiguration(rabbitUri, exchange = "news-save-exchange", queue = "news-save", routingKey = "auto-save", subscribe = false, null).setUp()
     //Save exchange - to consume from
-    BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis", subscribe = true, callback = AnalysisTaskHandler(rabbitUri, registry)).setUp()
+    BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis", subscribe = true, callback = AnalysisTaskHandler(registry, AnalysisService(rabbitUri,"auto-save"))).setUp()
 }
 
 fun main() {

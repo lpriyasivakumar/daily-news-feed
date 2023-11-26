@@ -9,13 +9,11 @@ import com.rabbitmq.client.Delivery
 import io.collective.messaging.ChannelDeliverCallback
 import io.collective.news.NewsArticle
 import org.slf4j.LoggerFactory
-import java.util.Properties
 
-class AnalysisTaskHandler(rabbitUri: String, registry: MetricRegistry) : ChannelDeliverCallback {
+class AnalysisTaskHandler(registry: MetricRegistry, private val analysisService: AnalysisService) : ChannelDeliverCallback {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper = ObjectMapper().registerKotlinModule()
     private var channel: Channel? = null
-    private val analysisService = AnalysisService(rabbitUri, "auto-save")
     private val analysisRequests = registry.meter("article-analysis-requests")
     override fun setChannel(channel: Channel) {
         this.channel = channel

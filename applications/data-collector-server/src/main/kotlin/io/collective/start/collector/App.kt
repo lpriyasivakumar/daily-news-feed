@@ -26,12 +26,11 @@ import org.slf4j.LoggerFactory.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorRegistry) {
-    val logger =  getLogger(this.javaClass)
-    val newsService = NewsService(NewsDataGateway(dataSource()))
+fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorRegistry, newsService: NewsService) {
+
     val rabbitUri = System.getenv("RABBIT_URI") ?: "amqp://localhost:5672"
     val reporter = Slf4jReporter.forRegistry(registry)
-        .outputTo(LoggerFactory.getLogger("io.collective.start"))
+        .outputTo(getLogger("io.collective.start"))
         .convertRatesTo(TimeUnit.SECONDS)
         .convertDurationsTo(TimeUnit.MILLISECONDS)
         .build()
@@ -45,11 +44,6 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
             enable(SerializationFeature.INDENT_OUTPUT)
             disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             writerWithDefaultPrettyPrinter()
-        }
-    }
-    install(Routing) {
-        get("/") {
-            call.respondText("hi!", ContentType.Text.Html)
         }
     }
     registerNewsRoutes(newsService)
@@ -66,7 +60,8 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
 fun main() {
     val registry = MetricRegistry()
     val collectorRegistry = CollectorRegistry.defaultRegistry
+    val newsService = NewsService(NewsDataGateway(dataSource()))
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     val port = System.getenv("PORT")?.toInt() ?: 8761
-    embeddedServer(Netty, port, watchPaths = listOf("data-collector-server"), module = { module(registry, collectorRegistry) }).start()
+    embeddedServer(Netty, port, watchPaths = listOf("data-collector-server"), module = { module(registry, collectorRegistry, newsService) }).start()
 }
