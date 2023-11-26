@@ -5,7 +5,7 @@ class NewsService(private val dataGateway: NewsDataGateway) {
         return dataGateway.findAll().map { it.toDto() }
     }
 
-    private fun findBy(id: Long): NewsArticle {
+    fun findBy(id: Long): NewsArticle {
         val record = dataGateway.findBy(id)!!
         return record.toDto()
     }

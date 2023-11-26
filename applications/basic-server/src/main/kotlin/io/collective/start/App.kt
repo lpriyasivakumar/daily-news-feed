@@ -8,6 +8,8 @@ import freemarker.cache.ClassTemplateLoader
 import io.collective.metrics.registerHealthRoute
 import io.collective.metrics.registerMetricsRoute
 import io.ktor.application.*
+import io.ktor.client.*
+import io.ktor.client.features.json.*
 import io.ktor.features.*
 import io.ktor.freemarker.*
 import io.ktor.http.*
@@ -20,7 +22,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorRegistry) {
+fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorRegistry, client: HttpClient) {
     val reporter = Slf4jReporter.forRegistry(registry)
         .outputTo(LoggerFactory.getLogger("io.collective.start"))
         .convertRatesTo(TimeUnit.SECONDS)
@@ -43,7 +45,7 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
             writerWithDefaultPrettyPrinter()
         }
     }
-    registerNewsFeeds(newsApiUrl, pageRequests)
+    registerNewsFeeds(newsApiUrl, pageRequests, client.engine)
     registerHealthRoute()
     registerMetricsRoute(collectorRegistry)
 }
@@ -51,7 +53,8 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
 fun main() {
     val registry = MetricRegistry()
     val collectorRegistry = CollectorRegistry.defaultRegistry
+    val client = HttpClient { install(JsonFeature) { serializer = JacksonSerializer() } }
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     val port = System.getenv("PORT")?.toInt() ?: 8180
-    embeddedServer(Netty, port, watchPaths = listOf("basic-server"), module = { module(registry, collectorRegistry) }).start()
+    embeddedServer(Netty, port, watchPaths = listOf("basic-server"), module = { module(registry, collectorRegistry, client) }).start()
 }

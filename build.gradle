@@ -52,6 +52,7 @@ subprojects {
         implementation "io.prometheus:simpleclient_servlet:0.8.1"
 
         testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
+        testImplementation "io.ktor:ktor-client-mock:$ktor_version"
         testImplementation group: 'junit', name: 'junit', version: '4.12'
         testImplementation "io.mockk:mockk:$mockk_version"
         testImplementation "org.awaitility:awaitility:4.0.3"

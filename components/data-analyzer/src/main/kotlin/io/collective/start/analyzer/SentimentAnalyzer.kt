@@ -10,7 +10,7 @@ import java.util.*
 class SentimentAnalyzer {
     private var pipeline: StanfordCoreNLP
     init {
-        val props: Properties = Properties()
+        val props = Properties()
         props.setProperty("annotators", "tokenize,ssplit,parse,sentiment")
         pipeline = StanfordCoreNLP(props)
     }

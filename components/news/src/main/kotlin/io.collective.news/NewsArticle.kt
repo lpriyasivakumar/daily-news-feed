@@ -22,7 +22,7 @@ data class NewsArticle(
     @JsonProperty("sentiment")
     var sentiment: Number = -1,
     @JsonProperty("pubDate")
-    val publishedAt: String
+    var publishedAt: String
 )
 
 fun NewsRecord.toDto() = NewsArticle(
