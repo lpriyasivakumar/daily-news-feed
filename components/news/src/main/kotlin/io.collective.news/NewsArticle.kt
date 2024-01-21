@@ -19,8 +19,8 @@ data class NewsArticle(
     val url: String,
     @JsonProperty("image_url")
     val imageUrl: String?,
-    @JsonProperty("sentiment")
-    var sentiment: Number = -1,
+    @JsonProperty("sentimentValue")
+    var sentimentValue: Number = -1,
     @JsonProperty("pubDate")
     var publishedAt: String
 )
@@ -34,6 +34,6 @@ fun NewsRecord.toDto() = NewsArticle(
     content = content,
     url = url,
     imageUrl = imageUrl,
-    sentiment = sentiment,
+    sentimentValue = sentimentValue,
     publishedAt = publishedAt.toString()
 )

@@ -18,15 +18,15 @@
                     <div>
                         <div>
                             <h3>${article.title} </h3>
-                            <#if article.sentiment == 4>
+                            <#if article.sentimentValue == 4>
                                 <h4>Sentiment: Very positive</h4>
-                            <#elseIf article.sentiment == 3>
+                            <#elseIf article.sentimentValue == 3>
                                 <h4>Sentiment: Positive</h4>
-                            <#elseIf article.sentiment == 1>
+                            <#elseIf article.sentimentValue == 1>
                                 <h4>Sentiment: Negative</h4>
-                            <#elseIf article.sentiment == 0>
+                            <#elseIf article.sentimentValue == 0>
                                 <h4>Sentiment: Very Negative</h4>️
-                            <#elseIf article.sentiment == 2>
+                            <#elseIf article.sentimentValue == 2>
                                 <h4>Sentiment: Neutral</h4>
                             <#else>
                                 <h4>Sentiment: Unknown</h4>

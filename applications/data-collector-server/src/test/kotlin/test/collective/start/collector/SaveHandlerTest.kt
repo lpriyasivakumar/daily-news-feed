@@ -33,7 +33,7 @@ class SaveHandlerTest{
         description = "test description",
         imageUrl = "http://exampleimg.com",
         url = "http://newslinkccn.com",
-        sentiment = 3,
+        sentimentValue = 3,
         publishedAt = "2023-10-07 02:15:29"
     )
 

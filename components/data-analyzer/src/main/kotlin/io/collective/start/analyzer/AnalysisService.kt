@@ -17,7 +17,7 @@ class AnalysisService(private val rabbitUri: String, private val routingKey: Str
         //Running sentiment analysis
         val sentiment = analyzer.getSentiment(article.title)
         logger.info("Sentiment {} ", sentiment)
-        article.sentiment = sentiment
+        article.sentimentValue = sentiment
         logger.info("Dispatching article with title{} to save queue", article.title)
         val body = mapper.writeValueAsString(article).toByteArray()
         try {

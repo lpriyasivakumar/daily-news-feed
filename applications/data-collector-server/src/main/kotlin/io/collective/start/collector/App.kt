@@ -29,6 +29,7 @@ import java.util.concurrent.TimeUnit
 fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorRegistry, newsService: NewsService) {
 
     val rabbitUri = System.getenv("RABBIT_URI") ?: "amqp://localhost:5672"
+    val apiKey = System.getenv("NEWS_API_KEY") ?: "Test_key"
     val reporter = Slf4jReporter.forRegistry(registry)
         .outputTo(getLogger("io.collective.start"))
         .convertRatesTo(TimeUnit.SECONDS)
@@ -53,7 +54,7 @@ fun Application.module(registry: MetricRegistry, collectorRegistry: CollectorReg
     BasicRabbitConfiguration(rabbitUri, exchange = "news-analysis-exchange", queue = "news-analysis", routingKey = "auto-analysis", subscribe = false, null).setUp()
     //Save exchange - to consume from
     BasicRabbitConfiguration(rabbitUri, exchange = "news-save-exchange", queue = "news-save", routingKey = "auto-save", subscribe = true, SaveHandler(newsService, registry)).setUp()
-    val scheduler = WorkScheduler(CollectionWorkFinder(), mutableListOf(CollectionWorker(rabbitUri= rabbitUri, routingKey="auto-analysis", registry = registry)), 30)
+    val scheduler = WorkScheduler(CollectionWorkFinder(), mutableListOf(CollectionWorker(rabbitUri= rabbitUri, routingKey="auto-analysis", registry = registry, apiKey = apiKey)), 30)
     scheduler.start()
 }
 

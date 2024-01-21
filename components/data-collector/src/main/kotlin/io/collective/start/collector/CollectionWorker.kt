@@ -15,7 +15,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
-class CollectionWorker(override val name: String = "data-collector", val rabbitUri: String, val routingKey: String, registry: MetricRegistry) : Worker<CollectionTask> {
+class CollectionWorker(override val name: String = "data-collector", val rabbitUri: String, val routingKey: String, registry: MetricRegistry, val apiKey: String) : Worker<CollectionTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
     private val mapper: ObjectMapper = ObjectMapper().registerKotlinModule()
     private val factory = ConnectionFactory().apply { useNio() }
@@ -34,7 +34,7 @@ class CollectionWorker(override val name: String = "data-collector", val rabbitU
             val response: NewsResponse = client.get(task.url) {
                 accept(ContentType.Application.Json)
                 parameter("qInTitle", "Technology OR IT OR AI")
-                parameter("apiKey", task.apiKey)
+                parameter("apiKey", apiKey)
                 parameter("language", "en")
             }
             response.results.forEach { it -> send(it) }

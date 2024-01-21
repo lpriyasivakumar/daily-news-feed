@@ -22,7 +22,7 @@ class NewsServiceTest {
         description = "test description",
         imageUrl = "http://exampleimg.com",
         url = "http://newslinkccn.com",
-        sentiment = 3,
+        sentimentValue = 3,
         publishedAt = LocalDateTime.parse("2023-10-07 02:15:29", DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
     )
     private val record2 = NewsRecord(
@@ -34,7 +34,7 @@ class NewsServiceTest {
         description = "",
         imageUrl = "http://exampleimg2.com",
         url = "http://newslinkabc.com",
-        sentiment = 1,
+        sentimentValue = 1,
         publishedAt = LocalDateTime.parse("2023-10-07 02:15:29", DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
     )
     @Test

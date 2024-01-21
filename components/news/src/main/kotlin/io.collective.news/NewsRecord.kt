@@ -25,7 +25,7 @@ data class NewsRecord(
     val content: String,
     val url: String,
     val imageUrl: String,
-    val sentiment: Number,
+    val sentimentValue: Number,
     val publishedAt: LocalDateTime
 )
 
@@ -38,6 +38,6 @@ fun NewsArticle.toRecord() = NewsRecord(
     content = content ?: "",
     url = url,
     imageUrl = imageUrl ?: "",
-    sentiment = sentiment,
+    sentimentValue = sentimentValue,
     publishedAt = LocalDateTime.parse(publishedAt, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
 )
