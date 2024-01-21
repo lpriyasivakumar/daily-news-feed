@@ -15,7 +15,7 @@ services:
       - ./databases/init-scripts:/docker-entrypoint-initdb.d
       - ./.docker-data/.pg-data:/var/lib/postgresql/data
   rabbitmq:
-    image: rabbitmq:3.10-management-alpine
+    image: rabbitmq:3.12.12-management-alpine
     container_name: news-feed-rabbit
     ports:
       - '5672:5672'
