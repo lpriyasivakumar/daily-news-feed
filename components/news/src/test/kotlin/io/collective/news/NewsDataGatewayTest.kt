@@ -60,8 +60,8 @@ class NewsDataGatewayTest() {
 
         val records = gateway.findAll()
         assertEquals(records.size, 2)
-        assertEquals(records[0].sourceId, "newsabc")
-        assertEquals(records[1].sourceId, "newscnn")
+        assertEquals(records[0].sourceId, "newscnn")
+        assertEquals(records[1].sourceId, "newsabc")
     }
 
     @Test

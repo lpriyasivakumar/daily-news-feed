@@ -41,7 +41,7 @@ class NewsDataGateway(private val dataSource: DataSource) {
     }
 
     fun findAll(): List<NewsRecord> {
-        return template.findAll("select * from news_articles order by id") { rs ->
+        return template.findAll("select * from news_articles order by id desc") { rs ->
             NewsRecord(
                 rs.getLong(1),
                 rs.getString(2),

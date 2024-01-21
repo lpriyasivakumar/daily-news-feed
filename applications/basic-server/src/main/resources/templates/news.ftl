@@ -12,7 +12,7 @@
                 <a href="/news-feed?filterby=neutral">Neutral</a>
             </div>
         </div>
-        <#list articles as article>
+        <#list articles[0..*25] as article>
             <article class="card">
                 <div class="content">
                     <div>
